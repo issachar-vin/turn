@@ -1,11 +1,6 @@
 import { useState } from 'react';
 import { Lightbox } from '../ui/Lightbox';
 
-/**
- * The region-order source art carries an olive backdrop in its corners that
- * clashes with --bg-void. The board is inscribed in the square, so a circular
- * clip removes the backdrop entirely and leaves a clean disc (plan §7.6).
- */
 export function FigureBlock({
   src,
   alt,
@@ -27,13 +22,8 @@ export function FigureBlock({
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Enlarge figure: ${alt}`}
-        className="group relative w-full max-w-[420px] rounded-full"
+        className="group w-full max-w-[420px]"
       >
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-full transition-shadow duration-[var(--dur-standard)] group-hover:shadow-[0_0_60px_rgb(95_211_227/0.28)]"
-          style={{ boxShadow: '0 0 44px rgb(95 211 227 / 0.18)' }}
-        />
         <img
           src={src}
           alt={alt}
@@ -41,7 +31,7 @@ export function FigureBlock({
           height={height}
           loading="lazy"
           decoding="async"
-          className="w-full rounded-full border border-[var(--mist-cyan)]/25"
+          className="w-full transition-[filter] duration-[var(--dur-standard)] [filter:drop-shadow(0_0_44px_rgb(95_211_227_/_0.18))] group-hover:[filter:drop-shadow(0_0_60px_rgb(95_211_227_/_0.28))]"
         />
       </button>
       {caption && (
