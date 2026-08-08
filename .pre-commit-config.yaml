@@ -1,0 +1,14 @@
+repos:
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier
+        entry: npx prettier --write
+        language: system
+        types_or: [ts, tsx, css, json, markdown]
+      - id: oxlint
+        name: oxlint
+        entry: npx oxlint
+        language: system
+        pass_filenames: false
+        types_or: [ts, tsx]

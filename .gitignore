@@ -1,0 +1,21 @@
+node_modules
+dist
+dist-ssr
+*.local
+
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local reference material. The rulebooks are publisher copyright; the source
+# images are ~3MB of originals whose shipped derivatives already live in public/.
+resources/*.pdf
+resources/images/
