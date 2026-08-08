@@ -298,23 +298,18 @@
 }
 
 /* ---- Phase nav scrollbar (mobile) --------------------------------------- */
+/* The native scrollbar is hidden — some browsers (notably iOS Safari) ignore
+   ::-webkit-scrollbar styling on overlay scrollbars entirely, so a custom
+   thumb (rendered in PhaseRail) is the only way to get a consistently thin,
+   on-brand indicator everywhere. */
 
 .phase-nav-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: var(--text-gold) transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .phase-nav-scroll::-webkit-scrollbar {
-  height: 1px;
-}
-
-.phase-nav-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.phase-nav-scroll::-webkit-scrollbar-thumb {
-  background-color: var(--text-gold);
-  border-radius: 999px;
+  display: none;
 }
 
 /* ---- Reduced motion (plan §6) ------------------------------------------- */
