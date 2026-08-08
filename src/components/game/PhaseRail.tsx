@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import type { Section } from '../../content/types';
 import { useIsDesktop } from '../../hooks/useMediaQuery';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { scrollToSection } from '../../lib/scrollToSection';
 
 interface PhaseRailProps {
   sections: Section[];
@@ -17,10 +18,6 @@ export function PhaseRail({ sections, activeId, timelineRef }: PhaseRailProps) {
   ) : (
     <MobileRail sections={sections} activeId={activeId} />
   );
-}
-
-function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ block: 'start' });
 }
 
 function DesktopRail({ sections, activeId, timelineRef }: PhaseRailProps) {
