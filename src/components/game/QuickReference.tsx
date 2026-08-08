@@ -15,7 +15,8 @@ export function QuickReference({ title, blocks }: QuickReferenceProps) {
     <section
       id="quick-reference"
       aria-labelledby="quick-reference-heading"
-      className="scroll-mt-32 rounded-[var(--radius-lg)] border border-[var(--border-gold-dim)] bg-[var(--bg-raised)] p-5 sm:p-6"
+      // The TiebreakerFab already surfaces this content on mobile — no need to duplicate it inline.
+      className="hidden scroll-mt-32 rounded-[var(--radius-lg)] border border-[var(--border-gold-dim)] bg-[var(--bg-raised)] p-5 sm:p-6 lg:block"
     >
       <p className="t-eyebrow text-[var(--text-gold)]">Quick Reference</p>
       <h2 id="quick-reference-heading" className="t-section mt-1 text-[var(--text-primary)]">

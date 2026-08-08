@@ -8,8 +8,8 @@ export function TableBlock({
   rows: string[][];
 }) {
   return (
-    <div className="table-scroll measure -mx-1 px-1">
-      <table className="w-full border-collapse text-left">
+    <div className="measure w-[90%]">
+      <table className="w-full table-fixed border-collapse text-left">
         {caption && (
           <caption className="t-meta pb-2 text-left text-[var(--text-muted)]">{caption}</caption>
         )}
@@ -19,7 +19,7 @@ export function TableBlock({
               <th
                 key={header}
                 scope="col"
-                className="t-eyebrow whitespace-nowrap border-b border-[var(--border-hair)] px-3 py-2 text-[var(--text-gold)]"
+                className="border-b border-[var(--border-hair)] px-1 py-2 text-[0.6875rem] font-semibold uppercase leading-tight tracking-normal text-[var(--text-gold)]"
               >
                 {header}
               </th>
@@ -32,7 +32,7 @@ export function TableBlock({
               {row.map((cell, cellIndex) => (
                 <td
                   key={cellIndex}
-                  className="t-body-sm whitespace-nowrap border-b border-[var(--border-hair)] px-3 py-2 text-[var(--text-secondary)] first:font-semibold first:text-[var(--text-primary)]"
+                  className="t-body-sm border-b border-[var(--border-hair)] px-1 py-2 text-[var(--text-secondary)] first:font-semibold first:text-[var(--text-primary)]"
                 >
                   {cell}
                 </td>

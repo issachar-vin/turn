@@ -1,4 +1,4 @@
-import type { RefObject } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import type { Section } from '../../content/types';
 import { useIsDesktop } from '../../hooks/useMediaQuery';
@@ -33,7 +33,7 @@ function DesktopRail({ sections, activeId, timelineRef }: PhaseRailProps) {
   const scaleY = useTransform(reduced ? scrollYProgress : smooth, (value) => Math.max(value, 0));
 
   return (
-    <nav aria-label="Phases" className="sticky top-[calc(var(--header-height)+40px)]">
+    <nav aria-label="Phases" className="sticky top-[calc(var(--header-height)+40px)] pt-20 lg:self-start">
       <ol className="relative flex list-none flex-col gap-7 pl-6">
         <span
           aria-hidden
@@ -98,18 +98,40 @@ function DesktopRail({ sections, activeId, timelineRef }: PhaseRailProps) {
 }
 
 function MobileRail({ sections, activeId }: { sections: Section[]; activeId: string }) {
+  const listRef = useRef<HTMLUListElement>(null);
+  const activeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Adjust the list's own scrollLeft directly rather than calling
+  // scrollIntoView on the button — that also nudges page-level (vertical)
+  // scroll when the button sits inside a sticky nav, fighting the user's scroll.
+  useEffect(() => {
+    const list = listRef.current;
+    const button = activeButtonRef.current;
+    if (!list || !button) return;
+
+    const listRect = list.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+
+    if (buttonRect.left < listRect.left) {
+      list.scrollBy({ left: buttonRect.left - listRect.left, behavior: 'smooth' });
+    } else if (buttonRect.right > listRect.right) {
+      list.scrollBy({ left: buttonRect.right - listRect.right, behavior: 'smooth' });
+    }
+  }, [activeId]);
+
   return (
     <nav
       aria-label="Phases"
       className="sticky top-[var(--header-height)] z-30 -mx-4 border-b border-[var(--border-hair)] bg-[var(--bg-overlay)]/85 backdrop-blur-md sm:-mx-6"
     >
-      <ul className="flex list-none items-center gap-2 overflow-x-auto px-4 py-2 sm:px-6">
+      <ul ref={listRef} className="flex list-none items-center gap-2 overflow-x-auto px-4 py-2 sm:px-6">
         {sections.map((section) => {
           const active = section.id === activeId;
           return (
             <li key={section.id} data-phase={section.phase} className="shrink-0">
               <button
                 type="button"
+                ref={active ? activeButtonRef : undefined}
                 onClick={() => scrollToSection(section.id)}
                 aria-current={active ? 'true' : undefined}
                 className="t-eyebrow flex h-11 shrink-0 items-center whitespace-nowrap rounded-full border px-4 transition-colors duration-[var(--dur-standard)]"

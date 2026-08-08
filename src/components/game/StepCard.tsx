@@ -4,18 +4,15 @@ import type { Step } from '../../content/types';
 import { BlockRenderer } from '../blocks/BlockRenderer';
 import { SubstepList } from './SubstepList';
 import { VeiledStep } from './VeiledStep';
-import { useIsDesktop } from '../../hooks/useMediaQuery';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 import { stepVariants, reducedStepVariants } from './motion';
 
 export function StepCard({ step }: { step: Step }) {
-  const isDesktop = useIsDesktop();
   const reduced = usePrefersReducedMotion();
-  const [openOnMobile, setOpenOnMobile] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const hasBody = Boolean(step.blocks?.length || step.substeps?.length);
-  // Desktop shows bodies expanded; mobile collapses to title + numeral (plan §7.3).
-  const expanded = isDesktop || !hasBody || openOnMobile;
+  const expanded = !hasBody || open;
   const bodyId = `${step.id}-body`;
 
   const body = (
@@ -29,7 +26,7 @@ export function StepCard({ step }: { step: Step }) {
     <div className="flex items-baseline gap-3">
       <span className="t-numeral shrink-0 text-[var(--phase-text)]">{step.label}</span>
       <h3 className="t-step-title flex-1 text-[var(--text-primary)]">{step.title}</h3>
-      {hasBody && !isDesktop && (
+      {hasBody && (
         <span
           aria-hidden
           className="shrink-0 text-[var(--text-secondary)] transition-transform duration-[var(--dur-standard)]"
@@ -43,12 +40,12 @@ export function StepCard({ step }: { step: Step }) {
 
   const inner = (
     <>
-      {hasBody && !isDesktop ? (
+      {hasBody ? (
         <button
           type="button"
           aria-expanded={expanded}
           aria-controls={bodyId}
-          onClick={() => setOpenOnMobile((value) => !value)}
+          onClick={() => setOpen((value) => !value)}
           className="flex min-h-[44px] w-full items-center text-left"
         >
           {header}
@@ -62,9 +59,9 @@ export function StepCard({ step }: { step: Step }) {
           <motion.div
             id={bodyId}
             key="body"
-            initial={reduced || isDesktop ? false : { height: 0, opacity: 0 }}
+            initial={reduced ? false : { height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
-            exit={reduced ? { height: 0, opacity: 0 } : { height: 0, opacity: 0 }}
+            exit={{ height: 0, opacity: 0 }}
             transition={{ duration: reduced ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
