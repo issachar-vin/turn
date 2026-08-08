@@ -297,20 +297,6 @@
   }
 }
 
-/* ---- Table edge fade (plan §7.6) ---------------------------------------- */
-
-.table-scroll {
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 12px,
-    #000 calc(100% - 12px),
-    transparent 100%
-  );
-}
-
 /* ---- Reduced motion (plan §6) ------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {

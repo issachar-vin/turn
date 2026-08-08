@@ -16,10 +16,7 @@ export function PhaseSection({ section }: { section: Section }) {
       className="scroll-mt-32 py-14 sm:py-20"
     >
       <header className="mb-8">
-        <p className="t-eyebrow mb-2 text-[var(--phase-text)]">
-          {section.ordinal !== null ? `${section.ordinal} — ` : ''}
-          {section.tagline}
-        </p>
+        <p className="t-eyebrow mb-2 text-[var(--phase-text)]">{section.tagline}</p>
         <h2 id={headingId} className="t-phase-title text-[var(--text-primary)]">
           {section.name}
         </h2>

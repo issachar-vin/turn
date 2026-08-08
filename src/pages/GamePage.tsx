@@ -45,13 +45,10 @@ function GameDetail({ game }: { game: NonNullable<ReturnType<typeof getGame>> })
     <>
       <GameHero game={game} />
 
-      <div className="grid grid-cols-1 gap-0 lg:grid-cols-[var(--rail-width)_minmax(0,780px)] lg:justify-center lg:gap-12">
-        <div className="lg:pt-20">
-          <PhaseRail sections={game.sections} activeId={activeId} timelineRef={timelineRef} />
-        </div>
+      <div className="flex flex-col gap-0 lg:grid lg:grid-cols-[var(--rail-width)_minmax(0,780px)] lg:justify-center lg:gap-12">
+        <PhaseRail sections={game.sections} activeId={activeId} timelineRef={timelineRef} />
 
-        {/* Bottom padding on mobile clears the floating Tiebreakers button. */}
-        <div ref={timelineRef} className="min-w-0 pb-24 lg:pb-0">
+        <div ref={timelineRef} className="min-w-0">
           {game.sections.map((section) => (
             <PhaseSection key={section.id} section={section} />
           ))}
