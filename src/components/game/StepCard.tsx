@@ -80,7 +80,6 @@ export function StepCard({ step }: { step: Step }) {
       <motion.article
         id={step.id}
         variants={reduced ? reducedStepVariants : stepVariants}
-        className="scroll-mt-32"
       >
         <VeiledStep condition={step.condition}>{inner}</VeiledStep>
       </motion.article>
@@ -91,7 +90,7 @@ export function StepCard({ step }: { step: Step }) {
     <motion.article
       id={step.id}
       variants={reduced ? reducedStepVariants : stepVariants}
-      className="scroll-mt-32 rounded-[var(--radius-md)] border border-[var(--border-hair)] border-l-2 bg-[var(--bg-raised)] p-4 sm:p-5"
+      className="rounded-[var(--radius-md)] border border-[var(--border-hair)] border-l-2 bg-[var(--bg-raised)] p-4 sm:p-5"
       style={{ borderLeftColor: 'var(--phase-core)' }}
     >
       {inner}

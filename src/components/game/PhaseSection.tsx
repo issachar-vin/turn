@@ -13,7 +13,7 @@ export function PhaseSection({ section }: { section: Section }) {
       data-phase={section.phase}
       data-section-id={section.id}
       aria-labelledby={headingId}
-      className="scroll-mt-32 py-14 sm:py-20"
+      className="py-14 sm:py-20"
     >
       <header className="mb-8">
         <p className="t-eyebrow mb-2 text-[var(--phase-text)]">{section.tagline}</p>

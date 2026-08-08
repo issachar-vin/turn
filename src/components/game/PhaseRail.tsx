@@ -1,8 +1,9 @@
-import { useEffect, useRef, type RefObject } from 'react';
+import { useCallback, useEffect, useRef, useState, type RefObject } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import type { Section } from '../../content/types';
 import { useIsDesktop } from '../../hooks/useMediaQuery';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { scrollToSection } from '../../lib/scrollToSection';
 
 interface PhaseRailProps {
   sections: Section[];
@@ -17,10 +18,6 @@ export function PhaseRail({ sections, activeId, timelineRef }: PhaseRailProps) {
   ) : (
     <MobileRail sections={sections} activeId={activeId} />
   );
-}
-
-function scrollToSection(id: string) {
-  document.getElementById(id)?.scrollIntoView({ block: 'start' });
 }
 
 function DesktopRail({ sections, activeId, timelineRef }: PhaseRailProps) {
@@ -100,6 +97,22 @@ function DesktopRail({ sections, activeId, timelineRef }: PhaseRailProps) {
 function MobileRail({ sections, activeId }: { sections: Section[]; activeId: string }) {
   const listRef = useRef<HTMLUListElement>(null);
   const activeButtonRef = useRef<HTMLButtonElement>(null);
+  const [thumb, setThumb] = useState({ left: 0, width: 100, visible: false });
+
+  const updateThumb = useCallback(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const { scrollLeft, scrollWidth, clientWidth } = list;
+    if (scrollWidth <= clientWidth) {
+      setThumb({ left: 0, width: 100, visible: false });
+      return;
+    }
+    setThumb({
+      left: (scrollLeft / scrollWidth) * 100,
+      width: (clientWidth / scrollWidth) * 100,
+      visible: true,
+    });
+  }, []);
 
   // Adjust the list's own scrollLeft directly rather than calling
   // scrollIntoView on the button — that also nudges page-level (vertical)
@@ -119,12 +132,28 @@ function MobileRail({ sections, activeId }: { sections: Section[]; activeId: str
     }
   }, [activeId]);
 
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    updateThumb();
+    list.addEventListener('scroll', updateThumb, { passive: true });
+    const resizeObserver = new ResizeObserver(updateThumb);
+    resizeObserver.observe(list);
+    return () => {
+      list.removeEventListener('scroll', updateThumb);
+      resizeObserver.disconnect();
+    };
+  }, [updateThumb]);
+
   return (
     <nav
       aria-label="Phases"
       className="sticky top-[var(--header-height)] z-30 -mx-4 border-b border-[var(--border-hair)] bg-[var(--bg-overlay)]/85 backdrop-blur-md sm:-mx-6"
     >
-      <ul ref={listRef} className="flex list-none items-center gap-2 overflow-x-auto px-4 py-2 sm:px-6">
+      <ul
+        ref={listRef}
+        className="phase-nav-scroll flex list-none items-center gap-2 overflow-x-auto px-4 py-2 sm:px-6"
+      >
         {sections.map((section) => {
           const active = section.id === activeId;
           return (
@@ -152,6 +181,15 @@ function MobileRail({ sections, activeId }: { sections: Section[]; activeId: str
           );
         })}
       </ul>
+
+      {thumb.visible && (
+        <div aria-hidden className="relative h-px bg-[var(--border-hair)]">
+          <div
+            className="absolute inset-y-0 rounded-full bg-[var(--text-gold)] transition-[left,width] duration-150 ease-out"
+            style={{ left: `${thumb.left}%`, width: `${thumb.width}%` }}
+          />
+        </div>
+      )}
     </nav>
   );
 }

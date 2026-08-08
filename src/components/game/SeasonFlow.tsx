@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import type { FlowNode } from '../../content/types';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { scrollToSection } from '../../lib/scrollToSection';
 
 /**
  * The season structure in one glance: three phases, an end-of-season step, and
@@ -29,6 +30,11 @@ export function SeasonFlow({ nodes }: { nodes: FlowNode[] }) {
             >
               <a
                 href={`#${node.target}`}
+                onClick={(event) => {
+                  event.preventDefault();
+                  scrollToSection(node.target);
+                  history.replaceState(null, '', `#${node.target}`);
+                }}
                 className="flex w-full flex-col items-center justify-center gap-1 rounded-[var(--radius-md)] border px-4 py-3.5 text-center transition-all duration-[var(--dur-standard)] hover:brightness-125"
                 style={{
                   borderColor: 'color-mix(in srgb, var(--phase-core) 45%, transparent)',
