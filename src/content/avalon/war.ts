@@ -18,8 +18,8 @@ export const warPhase: Section = {
           src: '/images/war-region-order.webp',
           alt: 'The nine regions of the board numbered 1 through 9, with arrows tracing the fixed War Phase resolution order.',
           caption: 'Resolve regions 1 → 9 in this order.',
-          width: 900,
-          height: 900,
+          width: 431,
+          height: 441,
         },
         {
           type: 'text',
