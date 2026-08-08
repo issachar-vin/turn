@@ -1,0 +1,337 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url('/fonts/cinzel-latin-var.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-latin-var.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
+    U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Bridge the tokens into Tailwind so utilities and tokens can't drift. */
+@theme inline {
+  --color-void: var(--bg-void);
+  --color-base: var(--bg-base);
+  --color-raised: var(--bg-raised);
+  --color-overlay: var(--bg-overlay);
+  --color-hair: var(--border-hair);
+  --color-gold: var(--border-gold);
+  --color-gold-dim: var(--border-gold-dim);
+
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-text-gold: var(--text-gold);
+
+  --color-phase: var(--phase-core);
+  --color-phase-text: var(--phase-text);
+
+  --color-mist-cyan: var(--mist-cyan);
+  --color-mist-violet: var(--mist-violet);
+  --color-mist-rose: var(--mist-rose);
+  --color-grail: var(--grail);
+  --color-note: var(--note);
+  --color-danger: var(--danger);
+
+  --font-display: 'Cinzel', Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --ease-standard: var(--ease-standard);
+  --ease-emphasized: var(--ease-emphasized);
+}
+
+/* Everything below is layered. Unlayered rules outrank every Tailwind utility,
+   so a bare `ul { padding: 0 }` would silently defeat `pl-6` at the call site. */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Sticky rail + header clearance for anchor jumps. */
+    scroll-padding-top: calc(var(--header-height) + 72px);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg-void);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote {
+    margin: 0;
+  }
+
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--bg-base),
+      0 0 0 4px var(--phase-core);
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* ---- Type roles (plan §4) ------------------------------------------------ */
+
+@layer components {
+  .t-display {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+
+  .t-phase-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1.15;
+    text-transform: uppercase;
+  }
+
+  .t-section {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .t-eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .t-step-title {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .t-body {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .t-body-sm {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .t-meta {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.45;
+  }
+
+  .t-numeral {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .measure {
+    max-width: var(--measure);
+  }
+}
+
+/* ---- Ambient phase wash (plan §6, "phase handoff") ----------------------- */
+
+.page-wash {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(80rem 50rem at 50% -10%, var(--page-phase-glow), transparent 70%),
+    radial-gradient(60rem 40rem at 100% 40%, var(--page-phase-glow), transparent 75%);
+  opacity: 0.55;
+  transition: --page-phase-glow 600ms var(--ease-standard);
+}
+
+/* ---- Mist drift (plan §6) ------------------------------------------------ */
+
+.mist-layer {
+  position: absolute;
+  inset: -25%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.mist-layer--a {
+  background:
+    radial-gradient(38rem 24rem at 22% 34%, rgb(95 211 227 / 0.3), transparent 65%),
+    radial-gradient(30rem 20rem at 72% 22%, rgb(139 123 216 / 0.26), transparent 68%);
+  animation: mist-drift-a 40s var(--ease-standard) infinite alternate;
+}
+
+.mist-layer--b {
+  background:
+    radial-gradient(34rem 22rem at 78% 68%, rgb(232 143 176 / 0.22), transparent 66%),
+    radial-gradient(42rem 26rem at 12% 78%, rgb(76 155 232 / 0.24), transparent 70%);
+  animation: mist-drift-b 60s var(--ease-standard) infinite alternate;
+}
+
+/* Paused when the hero leaves the viewport (plan §11). */
+.mist-paused .mist-layer {
+  animation-play-state: paused;
+}
+
+@keyframes mist-drift-a {
+  from {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(4%, 3%, 0) scale(1.12);
+  }
+}
+
+@keyframes mist-drift-b {
+  from {
+    transform: translate3d(3%, 2%, 0) scale(1.08);
+  }
+  to {
+    transform: translate3d(-4%, -3%, 0) scale(1);
+  }
+}
+
+/* ---- Veiled shimmer (plan §7.5) ----------------------------------------- */
+
+.veil-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    rgb(255 255 255 / 0.06) 50%,
+    transparent 65%
+  );
+  background-size: 300% 100%;
+  animation: veil-sweep 12s linear infinite;
+}
+
+@keyframes veil-sweep {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -150% 0;
+  }
+}
+
+/* ---- Table edge fade (plan §7.6) ---------------------------------------- */
+
+.table-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 12px,
+    #000 calc(100% - 12px),
+    transparent 100%
+  );
+}
+
+/* ---- Reduced motion (plan §6) ------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .mist-layer,
+  .veil-shimmer::after {
+    animation: none;
+  }
+
+  .page-wash {
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,105 @@
+/* Design tokens. Dark-only by design (plan §3) — a light theme would be a swap
+   of this file's :root block, nothing else. */
+
+:root {
+  color-scheme: dark;
+
+  /* Base surfaces */
+  --bg-void: #070b14;
+  --bg-base: #0a0f1c;
+  --bg-raised: #111a2e;
+  --bg-overlay: #16203a;
+  --border-hair: #1e2a46;
+  --border-gold: #c9a227;
+  --border-gold-dim: #6b551a;
+
+  /* Text */
+  --text-primary: #edeff5;
+  --text-secondary: #a5afc4;
+  /* Lifted from the planned #6C7891, which measured 3.9:1 on --bg-raised and
+     3.6:1 on --bg-overlay — the surfaces it is actually used on. This clears
+     4.5:1 on every surface in the system. */
+  --text-muted: #7e899f;
+  --text-gold: #e8ce7a;
+
+  /* Phase accents */
+  --mist-core: #4c9be8;
+  --mist-glow: rgb(76 155 232 / 0.28);
+  --mist-text: #7fc4f5;
+
+  --prep-core: #3fa96b;
+  --prep-glow: rgb(63 169 107 / 0.28);
+  --prep-text: #6fd99a;
+
+  --war-core: #c4353f;
+  --war-glow: rgb(196 53 63 / 0.3);
+  --war-text: #f08a8f;
+
+  /* Aurora — hero and veiled steps only */
+  --mist-cyan: #5fd3e3;
+  --mist-violet: #8b7bd8;
+  --mist-rose: #e88fb0;
+
+  /* Semantic */
+  --grail: #e8ce7a;
+  --note: #7fc4f5;
+  --danger: #f08a8f;
+
+  /* Default phase channel — gold, for non-phase sections (End of Season,
+     Ending the Game, home page). Overridden by [data-phase]. */
+  --phase-core: var(--border-gold);
+  --phase-glow: rgb(201 162 39 / 0.24);
+  --phase-text: var(--text-gold);
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* Motion */
+  --dur-micro: 150ms;
+  --dur-standard: 250ms;
+  --dur-entrance: 400ms;
+  --dur-hero: 800ms;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --rail-width: 180px;
+  --measure: 68ch;
+  --header-height: 56px;
+}
+
+/* A section is themed by one attribute; components only ever read --phase-*. */
+[data-phase='mist'] {
+  --phase-core: var(--mist-core);
+  --phase-glow: var(--mist-glow);
+  --phase-text: var(--mist-text);
+}
+
+[data-phase='preparation'] {
+  --phase-core: var(--prep-core);
+  --phase-glow: var(--prep-glow);
+  --phase-text: var(--prep-text);
+}
+
+[data-phase='war'] {
+  --phase-core: var(--war-core);
+  --phase-glow: var(--war-glow);
+  --phase-text: var(--war-text);
+}
+
+/* Phase handoff (plan §6): the page-level channel is animated, so the ambient
+   glow washes blue → green → red as the rail crosses phases. Registered so the
+   colors interpolate rather than snap. */
+@property --page-phase-core {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #4c9be8;
+}
+
+@property --page-phase-glow {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgb(76 155 232 / 0.28);
+}
