@@ -297,6 +297,26 @@
   }
 }
 
+/* ---- Phase nav scrollbar (mobile) --------------------------------------- */
+
+.phase-nav-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-gold) transparent;
+}
+
+.phase-nav-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.phase-nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.phase-nav-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--text-gold);
+  border-radius: 999px;
+}
+
 /* ---- Reduced motion (plan §6) ------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
