@@ -22,7 +22,7 @@ export function FigureBlock({
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Enlarge figure: ${alt}`}
-        className="w-full max-w-[420px]"
+        className="group w-full max-w-[420px]"
       >
         <img
           src={src}
@@ -31,7 +31,7 @@ export function FigureBlock({
           height={height}
           loading="lazy"
           decoding="async"
-          className="w-full"
+          className="w-full transition-[filter] duration-[var(--dur-standard)] [filter:drop-shadow(0_0_44px_rgb(95_211_227_/_0.18))] group-hover:[filter:drop-shadow(0_0_60px_rgb(95_211_227_/_0.28))]"
         />
       </button>
       {caption && (
