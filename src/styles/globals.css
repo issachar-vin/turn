@@ -305,7 +305,7 @@
 }
 
 .phase-nav-scroll::-webkit-scrollbar {
-  height: 4px;
+  height: 2px;
 }
 
 .phase-nav-scroll::-webkit-scrollbar-track {
