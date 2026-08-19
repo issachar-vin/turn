@@ -19,14 +19,8 @@ export const endgameSection: Section = {
       ],
     },
     {
-      id: 'reset-favor-track',
-      label: '02',
-      title: 'Reset the Favor Track',
-      blocks: [{ type: 'text', content: 'Reset the Favor Track to 0 for all players.' }],
-    },
-    {
       id: 'season-loop',
-      label: '03',
+      label: '02',
       title: 'Next Season or End Game',
       blocks: [
         {
@@ -46,7 +40,7 @@ export const endgameSection: Section = {
     },
     {
       id: 'ending-the-game',
-      label: '04',
+      label: '03',
       title: 'Ending the Game',
       blocks: [
         {

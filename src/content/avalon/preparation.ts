@@ -122,6 +122,18 @@ export const preparationPhase: Section = {
                 },
               ],
             },
+            {
+              type: 'callout',
+              tone: 'note',
+              content:
+                'Resolve your Card and any Abilities in **whichever order you like** — but finish every effect of one before starting the next.',
+            },
+            {
+              type: 'callout',
+              tone: 'warning',
+              content:
+                "The exceptions are 'if' and 'when' effects, such as 'if you deploy' or 'when you explore'. Those trigger the moment their requirement is met, even part-way through resolving something else.",
+            },
           ],
           substeps: [
             {
@@ -146,28 +158,54 @@ export const preparationPhase: Section = {
               },
               blocks: [
                 {
-                  type: 'list',
-                  ordered: true,
-                  items: ['Flip the region tile.', 'Pick 1 reward.', 'Reveal the Mist Card.'],
+                  type: 'callout',
+                  tone: 'warning',
+                  content:
+                    '**Immediately pause the action or effect you were resolving** and explore the region now. Finish the exploration, then pick up where you left off.',
                 },
                 {
-                  type: 'branch',
-                  options: [
+                  type: 'list',
+                  ordered: true,
+                  items: [
+                    'Flip the region tile face up, if it is face down.',
+                    'Pick 1 exploration reward printed above the region name — even if the tile was already face up.',
                     {
-                      label: 'Artifact revealed',
+                      content: 'Reveal the Mist Card.',
                       blocks: [
                         {
-                          type: 'text',
-                          content:
-                            'Nothing happens now. It stays in the region until the War Phase.',
+                          type: 'branch',
+                          options: [
+                            {
+                              label: 'Artifact revealed',
+                              blocks: [
+                                {
+                                  type: 'text',
+                                  content:
+                                    'Nothing happens now. It stays face up in the region until the War Phase.',
+                                },
+                              ],
+                            },
+                            {
+                              label: 'Mythical Beast revealed',
+                              blocks: [
+                                {
+                                  type: 'text',
+                                  content:
+                                    'Interrupt again and resolve the Bonding bid before going any further.',
+                                },
+                              ],
+                            },
+                          ],
                         },
                       ],
                     },
-                    {
-                      label: 'Mythical Beast revealed',
-                      blocks: [{ type: 'text', content: 'Instantly triggers a Bonding bid.' }],
-                    },
+                    'Return to resolving the rest of your turn.',
                   ],
+                },
+                {
+                  type: 'callout',
+                  tone: 'note',
+                  content: 'You may only explore once per turn, no matter how many Lords you have.',
                 },
               ],
             },
