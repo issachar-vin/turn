@@ -9,8 +9,84 @@ export const warPhase: Section = {
   note: 'Battles and scoring resolve region by region, in a fixed order.',
   steps: [
     {
-      id: 'region-order',
+      id: 'start-of-the-war-phase',
       label: '01',
+      title: 'Start of the War Phase',
+      blocks: [{ type: 'text', content: 'Settle these before the first region is resolved.' }],
+      substeps: [
+        {
+          id: 'claim-excalibur',
+          label: 'a',
+          title: 'Claim Excalibur',
+          blocks: [
+            {
+              type: 'text',
+              content:
+                'If Excalibur has not been claimed yet this season, the player with more Favor than every other player claims it now.',
+            },
+            {
+              type: 'callout',
+              tone: 'warning',
+              content:
+                'If two or more players tie for the most Favor, nobody claims Excalibur — and a Lord holding it from the previous season returns it to its place next to the Favor Track.',
+            },
+            {
+              type: 'callout',
+              tone: 'note',
+              content:
+                'Excalibur can also be claimed earlier: the first player to reach the end of the Favor Track takes it, as long as there is no tie. The bearing Lord gains +2 strength, and once per season may add +1 strength to any one battle where they tie for 1st place.',
+            },
+          ],
+        },
+        {
+          id: 'reset-favor-track',
+          label: 'b',
+          title: 'Reset the Favor Track',
+          blocks: [
+            {
+              type: 'text',
+              content: 'Move every Favor Marker back to 0, whether or not Excalibur was claimed.',
+            },
+            {
+              type: 'callout',
+              tone: 'note',
+              content:
+                'Favor earned later in the War Phase stays on the track and carries into the next season.',
+            },
+          ],
+        },
+        {
+          id: 'gain-the-green-knight',
+          label: 'c',
+          title: 'Gain the Green Knight',
+          condition: {
+            kind: 'mode',
+            label: 'Catch-Up Mechanisms only',
+          },
+          blocks: [
+            {
+              type: 'text',
+              content:
+                'If at least 2 star spaces on the VP Track sit between the last place player and the next lowest player — ignoring the spaces the Markers themselves are on — the last place player gains the Green Knight for this War Phase. They take the Green Knight Card and place the miniature in any region that holds an enemy Hero.',
+            },
+            {
+              type: 'callout',
+              tone: 'warning',
+              content: 'If there is a tie for last place, nobody gains the Green Knight.',
+            },
+            {
+              type: 'callout',
+              tone: 'note',
+              content:
+                'The Green Knight counts as a Unit, but not against the limit of one bonded Mythical Beast per season. Control ends when the War Phase does.',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'region-order',
+      label: '02',
       title: 'Resolve Regions In Order',
       blocks: [
         {
@@ -24,13 +100,13 @@ export const warPhase: Section = {
         {
           type: 'text',
           content:
-            'For each explored region with any Unit present, in that order, work through the battle and scoring below.',
+            'For each explored region where any player has strength, in that order, work through the battle and scoring below.',
         },
       ],
     },
     {
       id: 'determine-the-battle',
-      label: '02',
+      label: '03',
       title: 'Determine the Battle',
       blocks: [
         {
@@ -62,7 +138,7 @@ export const warPhase: Section = {
     },
     {
       id: 'non-hero-battle',
-      label: '03',
+      label: '04',
       title: 'Non-Hero Battle',
       condition: {
         kind: 'situational',
@@ -72,13 +148,19 @@ export const warPhase: Section = {
         {
           type: 'text',
           content:
-            "Sum each faction's total strength from Units, Settlements, Artifacts and Abilities, then compare directly. Skip to Score the Region.",
+            "Sum each faction's total strength from Units, Settlements and Abilities, then compare directly. Skip to Score the Region.",
+        },
+        {
+          type: 'callout',
+          tone: 'note',
+          content:
+            'No Artifact strength applies here — with no Lord or Champion in the region there is no Hero to bear an Artifact.',
         },
       ],
     },
     {
       id: 'hero-battle',
-      label: '04',
+      label: '05',
       title: 'Hero Battle',
       condition: {
         kind: 'situational',
@@ -195,7 +277,7 @@ export const warPhase: Section = {
     },
     {
       id: 'score-the-region',
-      label: '05',
+      label: '06',
       title: 'Score the Region',
       blocks: [
         {
@@ -213,7 +295,7 @@ export const warPhase: Section = {
     },
     {
       id: 'gain-artifacts',
-      label: '06',
+      label: '07',
       title: 'Gain Artifacts',
       condition: {
         kind: 'situational',
@@ -229,16 +311,17 @@ export const warPhase: Section = {
     },
     {
       id: 'discard-battle-cards',
-      label: '07',
+      label: '08',
       title: 'Discard Battle Cards',
       blocks: [
         {
           type: 'list',
           ordered: false,
           items: [
-            'Won: discard the Battle Plan and all Bonus Cards.',
-            'Lost and the Battle Plan failed: discard the Battle Plan, keep the Bonus Cards.',
-            'Lost but the Battle Plan succeeded, and you placed neither 1st nor 2nd: keep the Battle Plan and the Bonus Cards.',
+            '**1st place:** discard your Battle Plan and all Bonus Cards you played.',
+            '**Any other position** and your Battle Plan failed: discard the Battle Plan, regain all Bonus Cards.',
+            '**Any other position** and your Battle Plan did not fail: regain the Battle Plan and all Bonus Cards.',
+            'If a Battle Plan says to discard it as part of its effect, discard it.',
           ],
         },
       ],

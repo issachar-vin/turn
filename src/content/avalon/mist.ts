@@ -64,9 +64,12 @@ export const mistPhase: Section = {
       title: 'New Prophecy Cards',
       blocks: [
         {
-          type: 'text',
-          content:
-            'Draw X Prophecy Cards, where X is the season number, and place them near the Favor Track.',
+          type: 'list',
+          ordered: true,
+          items: [
+            'Discard all Prophecies from the previous season and return any Faction Cubes on them to their owners.',
+            'Draw X Prophecy Cards, where X is the season number, and place them face up beneath the Favor Track. They are active for this season.',
+          ],
         },
       ],
     },
@@ -91,7 +94,12 @@ export const mistPhase: Section = {
         {
           type: 'text',
           content:
-            'Gain the printed VPs from your visible Settlement slots, then deploy Warriors per the Settlement icon.',
+            'Gain every bonus printed on your visible Settlement slots — VPs, the Warriors shown deployed into that settled region, and whatever else your Faction Board grants there.',
+        },
+        {
+          type: 'callout',
+          tone: 'note',
+          content: 'In an Asymmetric Game, Druid Ley Lines give their own bonuses on top of this.',
         },
       ],
     },
