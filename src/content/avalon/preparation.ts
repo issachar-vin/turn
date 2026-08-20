@@ -100,46 +100,55 @@ export const preparationPhase: Section = {
           id: 'player-turns',
           label: '03',
           title: 'Player Turns',
-          blocks: [
-            { type: 'text', content: 'In initiative order, highest to lowest.' },
+          blocks: [{ type: 'text', content: 'In initiative order, highest to lowest.' }],
+          substeps: [
             {
-              type: 'branch',
-              options: [
+              id: 'card-or-standard-action',
+              label: '◆',
+              title: 'Card or Standard Action',
+              flow: 'any-order',
+              flowNote:
+                "**Finish every effect of one before starting the next** — except 'if' and 'when' effects, such as 'if you deploy' or 'when you explore', which trigger the moment their requirement is met, even mid-resolution.",
+              requirement: 'required',
+              blocks: [
                 {
-                  label: 'Resolve your Card',
-                  blocks: [
+                  type: 'branch',
+                  options: [
                     {
-                      type: 'text',
-                      content: 'Resolve the chosen Card, left to right and top to bottom.',
+                      label: 'Resolve your Card',
+                      blocks: [
+                        {
+                          type: 'text',
+                          content: 'Resolve the chosen Card, left to right and top to bottom.',
+                        },
+                      ],
+                    },
+                    {
+                      label: 'Standard Action',
+                      blocks: [
+                        {
+                          type: 'text',
+                          content:
+                            'Return the chosen Card and everything you paid for it to your hand, then perform one Standard Action for its stated cost.',
+                        },
+                      ],
                     },
                   ],
                 },
                 {
-                  label: 'Standard Action',
-                  blocks: [
-                    { type: 'text', content: 'Perform a Standard Action instead of the Card.' },
-                  ],
+                  type: 'callout',
+                  tone: 'note',
+                  content:
+                    'There is no way to pass. The closest is the free Standard Action — **draw 1 Card of your choice, no cost** — which keeps your whole hand intact.',
                 },
               ],
             },
             {
-              type: 'callout',
-              tone: 'note',
-              content:
-                'Resolve your Card and any Abilities in **whichever order you like** — but finish every effect of one before starting the next.',
-            },
-            {
-              type: 'callout',
-              tone: 'warning',
-              content:
-                "The exceptions are 'if' and 'when' effects, such as 'if you deploy' or 'when you explore'. Those trigger the moment their requirement is met, even part-way through resolving something else.",
-            },
-          ],
-          substeps: [
-            {
               id: 'use-abilities',
-              label: 'a',
+              label: '◆',
               title: 'Use Abilities',
+              flow: 'any-order',
+              requirement: 'optional',
               blocks: [
                 {
                   type: 'text',
@@ -150,8 +159,9 @@ export const preparationPhase: Section = {
             },
             {
               id: 'exploring-a-region',
-              label: 'b',
+              label: '⚡',
               title: 'Exploring a Region',
+              flow: 'interrupt',
               condition: {
                 kind: 'situational',
                 label: 'If your Lord enters or starts its turn in an unexplored region',
@@ -211,9 +221,13 @@ export const preparationPhase: Section = {
             },
             {
               id: 'end-of-turn-actions',
-              label: 'c',
+              label: '✓',
               title: 'End of Turn Actions',
               blocks: [
+                {
+                  type: 'text',
+                  content: 'Only once your Card and Abilities are done, in this order:',
+                },
                 {
                   type: 'list',
                   ordered: true,
