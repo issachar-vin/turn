@@ -34,12 +34,28 @@ export interface BranchOption {
   blocks: Block[];
 }
 
+/**
+ * How a step relates to its siblings. Absent means sequential — the default
+ * numbered spine. The others exist because a numbered list is a claim about
+ * order, and some rules make no such claim.
+ */
+export type StepFlow =
+  | 'any-order' // resolve alongside its any-order siblings, in whichever order you like
+  | 'interrupt'; // fires the moment its trigger is met, part-way through anything else
+
+/** Whether the step must happen. Only worth stating where siblings differ. */
+export type StepRequirement = 'required' | 'optional';
+
 export interface Step {
   /** Stable slug. Doubles as the scroll anchor and the tracker's checklist key. */
   id: string;
   /** "01" */
   label: string;
   title: string;
+  flow?: StepFlow;
+  /** Introduces the flow group this step opens. Read from the group's first step. */
+  flowNote?: string;
+  requirement?: StepRequirement;
   /** Presence ⇒ rendered inside the Veiled container. */
   condition?: Condition;
   blocks?: Block[];
