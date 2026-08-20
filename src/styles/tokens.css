@@ -9,6 +9,8 @@
   --bg-base: #0a0f1c;
   --bg-raised: #111a2e;
   --bg-overlay: #16203a;
+  /* One step up from --bg-overlay, same hue: the dock button's open (✕) state. */
+  --bg-overlay-lift: #1e2c50;
   --border-hair: #1e2a46;
   --border-gold: #c9a227;
   --border-gold-dim: #6b551a;
