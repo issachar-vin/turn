@@ -14,3 +14,6 @@ export function useMediaQuery(query: string): boolean {
 
 /** The single desktop breakpoint the layout switches on (plan §7.3). */
 export const useIsDesktop = () => useMediaQuery('(min-width: 1024px)');
+
+/** True for mouse-and-keyboard input. False on touch, where focus opens a keyboard. */
+export const useHasFinePointer = () => useMediaQuery('(hover: hover) and (pointer: fine)');

@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import type { Game, GlossaryEntry } from '../../content/types';
 import { BlockRenderer } from '../blocks/BlockRenderer';
-import { useIsDesktop } from '../../hooks/useMediaQuery';
+import { useHasFinePointer, useIsDesktop } from '../../hooks/useMediaQuery';
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
 type PanelId = 'tiebreakers' | 'glossary';
@@ -157,11 +157,14 @@ function GlossaryPanel({ title, entries }: { title: string; entries: GlossaryEnt
   const [query, setQuery] = useState('');
   const [mode, setMode] = useState<GlossaryMode>('list');
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const finePointer = useHasFinePointer();
   const searchRef = useRef<HTMLInputElement>(null);
 
+  // Focusing the search on touch pops the virtual keyboard over the panel you
+  // just opened, so the caret only lands where typing is already the intent.
   useEffect(() => {
-    searchRef.current?.focus();
-  }, []);
+    if (finePointer) searchRef.current?.focus();
+  }, [finePointer]);
 
   const needle = query.trim().toLowerCase();
   const inName = (entry: GlossaryEntry) => entry.name.toLowerCase().includes(needle);
