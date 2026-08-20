@@ -3,6 +3,7 @@ import { mistPhase } from './mist';
 import { preparationPhase } from './preparation';
 import { warPhase } from './war';
 import { endgameSection } from './endgame';
+import { iconGlossary } from './glossary';
 
 export const avalon: Game = {
   slug: 'avalon',
@@ -58,5 +59,9 @@ export const avalon: Game = {
         ],
       },
     ],
+  },
+  glossary: {
+    title: 'Icon Glossary',
+    entries: iconGlossary,
   },
 };

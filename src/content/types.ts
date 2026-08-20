@@ -83,6 +83,17 @@ export interface FlowNode {
   target: string;
 }
 
+export interface GlossaryEntry {
+  /** Stable slug, also the art's filename stem. */
+  id: string;
+  name: string;
+  description: string;
+  /** Black-on-transparent art, painted with CSS mask so it can take a theme color. */
+  icon: string;
+  /** Symbol the rulebook prints in front of the art, e.g. the '+' on a + Token. */
+  prefix?: string;
+}
+
 export interface Game {
   slug: string;
   title: string;
@@ -97,4 +108,5 @@ export interface Game {
   overview: FlowNode[];
   sections: Section[];
   quickReference: { title: string; blocks: Block[] };
+  glossary: { title: string; entries: GlossaryEntry[] };
 }

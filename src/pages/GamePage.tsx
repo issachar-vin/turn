@@ -3,7 +3,8 @@ import { useParams } from 'react-router';
 import { GameHero } from '../components/game/GameHero';
 import { PhaseRail } from '../components/game/PhaseRail';
 import { PhaseSection } from '../components/game/PhaseSection';
-import { QuickReference, TiebreakerFab } from '../components/game/QuickReference';
+import { QuickReference } from '../components/game/QuickReference';
+import { ReferenceDock } from '../components/game/ReferenceDock';
 import { getGame } from '../content/games';
 import { useActiveSection } from '../hooks/useActiveSection';
 import NotFoundPage from './NotFoundPage';
@@ -56,7 +57,7 @@ function GameDetail({ game }: { game: NonNullable<ReturnType<typeof getGame>> })
         </div>
       </div>
 
-      <TiebreakerFab title={game.quickReference.title} blocks={game.quickReference.blocks} />
+      <ReferenceDock game={game} />
     </>
   );
 }
